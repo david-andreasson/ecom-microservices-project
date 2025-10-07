@@ -1,0 +1,22 @@
+services:
+  product-service:
+    build: ../product-service
+    ports: ["8081:8080"]
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE: health,info,prometheus
+
+  order-service:
+    build: ../order-service
+    ports: ["8082:8080"]
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      EXTERNAL_WEATHER_BASEURL: https://api.open-meteo.com
+    depends_on:
+      - product-service
+
+  user-service:
+    build: ../user-service
+    ports: ["8083:8080"]
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
