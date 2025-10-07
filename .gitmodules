@@ -1,0 +1,12 @@
+[submodule "user-service"]
+	path = user-service
+	url = git@github.com:david-andreasson/ecom-user-service.git
+[submodule "product-service"]
+	path = product-service
+	url = git@github.com:david-andreasson/ecom-product-service.git
+[submodule "order-service"]
+	path = order-service
+	url = git@github.com:david-andreasson/ecom-order-service.git
+[submodule "frontend"]
+	path = frontend
+	url = git@github.com:david-andreasson/ecom-frontend.git
