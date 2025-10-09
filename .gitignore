@@ -1,0 +1,44 @@
+# Node and frontend
+node_modules/
+dist/
+build/
+coverage/
+.vite/
+.next/
+.out/
+*.log
+npm-debug.log*
+
+# Frontend projects
+frontend/
+frontend_v2/node_modules/
+frontend_v2/dist/
+frontend_v2/build/
+
+# Java / Maven / Gradle
+**/target/
+**/build/
+*.jar
+*.war
+*.iml
+.mvn/
+
+# OS / editors
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Environment files (never commit secrets)
+.env
+*.env
+infra/.env
+
+# Docker / misc
+**/.env.docker
+docker-compose.override.yml
+
+# Logs
+logs/
+**/*.log
+infra/horoscope.pdf

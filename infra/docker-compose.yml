@@ -1,22 +1,79 @@
 services:
+  # ---------------- PRODUCT ----------------
   product-service:
-    build: ../product-service
-    ports: ["8081:8080"]
+    build:
+      context: ../product-service
+      dockerfile: Dockerfile
+    container_name: product-service
+    ports:
+      - "8081:8081"
     environment:
       SPRING_PROFILES_ACTIVE: dev
       MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE: health,info,prometheus
+    networks: [ecom]
 
-  order-service:
-    build: ../order-service
-    ports: ["8082:8080"]
-    environment:
-      SPRING_PROFILES_ACTIVE: dev
-      EXTERNAL_WEATHER_BASEURL: https://api.open-meteo.com
+  # ---------------- FRONTEND_V2 (Vite + Nginx) ----------------
+  frontend_v2:
+    build:
+      context: ../frontend_v2
+      dockerfile: Dockerfile
+    container_name: frontend_v2
+    ports:
+      - "8080:80" # http://localhost:8080
     depends_on:
       - product-service
+      - order-service
+      - user-service
+    networks: [ecom]
+    volumes:
+      - product-db:/app/data
 
+  # ---------------- USER ----------------
   user-service:
-    build: ../user-service
-    ports: ["8083:8080"]
+    build:
+      context: ../user-service
+      dockerfile: Dockerfile
+    container_name: user-service
+    ports:
+      - "8083:8083"
     environment:
       SPRING_PROFILES_ACTIVE: dev
+    networks: [ecom]
+
+  # ---------------- ORDER ----------------
+  order-service:
+    build:
+      context: ../order-service
+      dockerfile: Dockerfile
+    container_name: order-service
+    ports:
+      - "8082:8082"  # matchar server.port=8082 i order-service
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      USERSERVICE_URL: http://user-service:8083
+      PRODUCTSERVICE_URL: http://product-service:8081
+      # 1minAI configuration
+      OPENAI_API_BASE: https://api.1min.ai
+      OPENAI_API_KEY: ${MINAI_API_KEY}
+      OPENAI_AUTH_HEADER: API-KEY
+      OPENAI_AUTH_PREFIX: ""
+      OPENAI_AUTH_SCHEME: ""
+      MOCK_OPENAI: "false"
+      # Optional overrides
+      # OPENAI_MODEL: gpt-4o-mini
+      # HOROSCOPE_STORAGE_DIR: /app/data/horoscopes
+    depends_on:
+      - product-service
+      - user-service
+    networks: [ecom]
+    volumes:
+      - order-data:/app/data
+
+  
+networks:
+  ecom:
+    driver: bridge
+
+volumes:
+  product-db:
+  order-data:
