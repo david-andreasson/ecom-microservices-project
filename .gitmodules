@@ -7,3 +7,7 @@
 [submodule "order-service"]
 	path = order-service
 	url = git@github.com:david-andreasson/ecom-order-service.git
+[submodule "frontend_v2"]
+	path = frontend_v2
+	url = https://github.com/david-andreasson/ecom-frontend-v2.git
+	branch = main
