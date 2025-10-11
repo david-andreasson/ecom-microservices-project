@@ -42,3 +42,4 @@ docker-compose.override.yml
 logs/
 **/*.log
 infra/horoscope.pdf
+frontend_v2_backup/

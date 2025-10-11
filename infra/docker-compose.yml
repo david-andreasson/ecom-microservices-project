@@ -27,6 +27,7 @@ services:
     networks: [ecom]
     volumes:
       - product-db:/app/data
+    restart: unless-stopped
 
   # ---------------- USER ----------------
   user-service:
@@ -38,6 +39,8 @@ services:
       - "8083:8083"
     environment:
       SPRING_PROFILES_ACTIVE: dev
+    volumes:
+      - user-data:/app/data
     networks: [ecom]
 
   # ---------------- ORDER ----------------
@@ -53,21 +56,24 @@ services:
       USERSERVICE_URL: http://user-service:8083
       PRODUCTSERVICE_URL: http://product-service:8081
       # 1minAI configuration
-      OPENAI_API_BASE: https://api.1min.ai
       OPENAI_API_KEY: ${MINAI_API_KEY}
+      OPENAI_API_BASE: https://api.1min.ai
       OPENAI_AUTH_HEADER: API-KEY
       OPENAI_AUTH_PREFIX: ""
       OPENAI_AUTH_SCHEME: ""
       MOCK_OPENAI: "false"
+      STRIPE_PUBLISHABLE_KEY: ${STRIPE_PUBLISHABLE_KEY}
+      STRIPE_SECRET_KEY: ${STRIPE_SECRET_KEY}
+      STRIPE_WEBHOOK_SECRET: ${STRIPE_WEBHOOK_SECRET}
       # Optional overrides
       # OPENAI_MODEL: gpt-4o-mini
       # HOROSCOPE_STORAGE_DIR: /app/data/horoscopes
     depends_on:
       - product-service
       - user-service
-    networks: [ecom]
     volumes:
       - order-data:/app/data
+    networks: [ecom]
 
   
 networks:
@@ -77,3 +83,4 @@ networks:
 volumes:
   product-db:
   order-data:
+  user-data:
