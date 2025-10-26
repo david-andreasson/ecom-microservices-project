@@ -1,9 +1,7 @@
 services:
   # ---------------- PRODUCT ----------------
   product-service:
-    build:
-      context: ../product-service
-      dockerfile: Dockerfile
+    image: davidandreasson/product-service:latest
     container_name: product-service
     ports:
       - "8081:8081"
@@ -14,9 +12,7 @@ services:
 
   # ---------------- FRONTEND_V2 (Vite + Nginx) ----------------
   frontend_v2:
-    build:
-      context: ../frontend_v2
-      dockerfile: Dockerfile
+    image: davidandreasson/frontend_v2:latest
     container_name: frontend_v2
     ports:
       - "8080:80" # http://localhost:8080
@@ -31,9 +27,7 @@ services:
 
   # ---------------- USER ----------------
   user-service:
-    build:
-      context: ../user-service
-      dockerfile: Dockerfile
+    image: davidandreasson/user-service:latest
     container_name: user-service
     ports:
       - "8083:8083"
@@ -45,12 +39,10 @@ services:
 
   # ---------------- ORDER ----------------
   order-service:
-    build:
-      context: ../order-service
-      dockerfile: Dockerfile
+    image: davidandreasson/order-service:latest
     container_name: order-service
     ports:
-      - "8082:8082"  # matchar server.port=8082 i order-service
+      - "8082:8082"  # matches server.port=8082 in order-service
     environment:
       SPRING_PROFILES_ACTIVE: dev
       USERSERVICE_URL: http://user-service:8083
