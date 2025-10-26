@@ -1,6 +1,6 @@
 # ecom-microservices-project
 
-A modular e-commerce system built with Spring Boot microservices, Docker, and Azure DevOps.
+A modular e-commerce system built with Spring Boot microservices and Docker
 
 ## Repositories (submodules)
 - `user-service/` → david-andreasson/ecom-user-service  
